@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: rgb(233, 227, 227);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+.title {
+  width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.vhHeight {
+  height: calc(100vh - 64px) !important;
+}
+.home {
+  background: url(/src/assets/home.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 5rem;
+}
+
+.load {
+  display: flex;
+  justify-content: center;
+  margin: 50px auto;
+}
+.load div {
+  width: 15px;
+  height: 15px;
+  background-color: darkblue;
+  border-radius: 50%;
+  margin: 0 5px;
+  animation-name: up-down;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.load .two {
+  animation-delay: 0.3s;
+}
+.load .three {
+  animation-delay: 0.6s;
+}
+@keyframes up-down {
+  to {
+    opacity: 0.2;
+    transform: translateY(-20px);
+  }
+}
