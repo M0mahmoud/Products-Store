@@ -11,7 +11,7 @@ export const CartContext = createContext({
 const UserProvider = ({ children }) => {
   const userContextValues = {
     addItem: (item) => {
-      console.log("Add");
+      
     },
     removeItem: () => {
       console.log("remove");

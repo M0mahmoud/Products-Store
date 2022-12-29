@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../store/user-context";
+import { useSelector } from "react-redux";
 
 import {
   Card,
@@ -15,15 +15,18 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 export default function DataCard({ test }) {
-  const { addItem } = useContext(CartContext);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const addToFavorites = () => {
-    console.log("Adding favorites");
-  };
+  // const addToFavorites = () => {
+  //   console.log("Adding favorites");
+  // };
 
   const addToCartHandler = () => {
-    addItem(test);
+    {
+      !isAuthenticated && <h1>sxsxs</h1>;
+    }
   };
+  
   return (
     <Card sx={{ maxWidth: 280 }}>
       <CardMedia
@@ -44,7 +47,12 @@ export default function DataCard({ test }) {
           justifyContent: "space-between",
         }}
       >
-        <IconButton aria-label="add to favorites" onClick={addToFavorites}>
+        <IconButton
+          aria-label="add to favorites"
+          onClick={() => {
+            console.log("ssss");
+          }}
+        >
           <FavoriteIcon /*sx={{ color: "red" }}*/ />
         </IconButton>
         <IconButton aria-label="add" onClick={addToCartHandler}>

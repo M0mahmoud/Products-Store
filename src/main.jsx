@@ -9,9 +9,9 @@ import "@splidejs/react-splide/css";
 import "@splidejs/react-splide/css/sea-green";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

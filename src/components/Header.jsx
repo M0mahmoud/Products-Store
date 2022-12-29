@@ -1,18 +1,24 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiAction } from "../store/productSlice";
 
-import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Button,
+  Avatar,
+} from "@mui/material";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = true;
+  const { isAuthenticated, userInfo } = useSelector((state) => state.auth);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -29,26 +35,39 @@ const Header = () => {
             </Link>
           </Typography>
 
-          {auth && (
-            <Button
-              variant="outlined"
-              color="inherit"
-              endIcon={<FavoriteIcon />}
-              onClick={() => navigate("/cart")}
-              sx={{ marginRight: "8px" }}
-            >
-              Favorites
-            </Button>
+          {isAuthenticated && (
+            <Avatar
+              onClick={() => {
+                console.log("Click User");
+              }}
+              variant="rounded"
+              sx={{
+                width: 36,
+                height: 36,
+                bgcolor: "#ccc",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+              alt={userInfo?.firstName}
+              src={userInfo?.image}
+            />
           )}
           <Button
             variant="outlined"
             color="inherit"
-            endIcon={auth ? <ShoppingCartIcon /> : <LoginIcon />}
             onClick={() => {
-              auth ? dispatch(uiAction.toggle()) : navigate("/auth/login");
+              isAuthenticated
+                ? dispatch(uiAction.toggle())
+                : navigate("/auth/login");
             }}
           >
-            {auth ? "Cart" : "Login"}
+            {isAuthenticated ? (
+              <ShoppingCartIcon />
+            ) : (
+              <>
+                Login <LoginIcon />
+              </>
+            )}
           </Button>
         </Toolbar>
       </AppBar>
