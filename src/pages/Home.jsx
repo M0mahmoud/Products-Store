@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCategories, getProducts, uiAction } from "../store/productSlice";
+import { userAction } from "../store/userSlice";
+import { getCategories, getProducts } from "../store/productSlice";
 
 import { Grid, Container, Drawer } from "@mui/material";
 
@@ -16,14 +17,8 @@ import Cart from "./Cart";
 const Home = () => {
   const dispatch = useDispatch();
   const [skip, setSkip] = useState(0);
-  const { catg, data, loading, error, cartIsVisible } = useSelector(
-    (state) => state.products
-  );
+  const { catg, data, loading, error } = useSelector((state) => state.products);
   console.count("Home Running...");
-
-  const toggleDrawer = () => {
-    dispatch(uiAction.toggle());
-  };
 
   useEffect(() => {
     dispatch(getCategories());
@@ -48,12 +43,8 @@ const Home = () => {
             ))}
           </Grid>
         </Container>
-
         <Paginate setSkip={setSkip} />
       </LoadingContent>
-      <Drawer anchor="right" open={cartIsVisible} onClose={toggleDrawer}>
-        <Cart />
-      </Drawer>
     </main>
   );
 };

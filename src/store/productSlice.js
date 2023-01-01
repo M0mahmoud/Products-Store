@@ -6,7 +6,6 @@ const initialState = {
   product: [],
   loading: false,
   error: null,
-  cartIsVisible: false,
 };
 
 export const getSingleproduct = createAsyncThunk(
@@ -56,11 +55,6 @@ export const getCategories = createAsyncThunk(
 const productSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {
-    toggle(state) {
-      state.cartIsVisible = !state.cartIsVisible;
-    },
-  },
   extraReducers: (builder) => {
     // Categories
     builder.addCase(getCategories.pending, (state) => {
@@ -104,6 +98,5 @@ const productSlice = createSlice({
   },
 });
 
-export const uiAction = productSlice.actions;
 
 export default productSlice.reducer;

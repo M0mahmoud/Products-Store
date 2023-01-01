@@ -24,8 +24,9 @@ a {
 }
 
 .vhHeight {
-  height: calc(100vh - 64px) !important;
+  height: 100vh;
 }
+
 .home {
   background: url(/src/assets/home.jpg);
   background-repeat: no-repeat;
@@ -38,6 +39,7 @@ a {
   margin-bottom: 5rem;
 }
 
+/* Animation */
 .load {
   display: flex;
   justify-content: center;

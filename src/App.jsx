@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 
-import { Cart, Home, Login, OneCategory, ProductDetails, Root } from "./pages";
+import { Home, Login, OneCategory, ProductDetails, Root } from "./pages";
 import UserProvider from "./store/user-context";
 
 const routers = createBrowserRouter([
@@ -20,10 +20,6 @@ const routers = createBrowserRouter([
       {
         path: "/product/:id",
         element: <ProductDetails />,
-      },
-      {
-        path: "cart",
-        element: <Cart />,
       },
       {
         path: "/auth/login",

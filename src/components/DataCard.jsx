@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Card,
@@ -13,20 +13,33 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { cartOfUser, updateCart } from "../store/userSlice";
 
 export default function DataCard({ test }) {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [cartId, setCartId] = useState();
+  const dispatch = useDispatch();
+  const { userInfo, userCart } = useSelector((state) => state.auth);
 
-  // const addToFavorites = () => {
-  //   console.log("Adding favorites");
-  // };
+  // console.log("useInfo", userInfo);
+  // const { id } = userInfo;
+
+  // useEffect(() => {
+  //   dispatch(cartOfUser(id)).then((res) => {
+  //     setCartId(res.payload.carts[0].id);
+  //   });
+  // }, []);
 
   const addToCartHandler = () => {
-    {
-      !isAuthenticated && <h1>sxsxs</h1>;
-    }
+    console.log("Error");
+    // dispatch(
+    //   updateCart({
+    //     cartId: cartId,
+    //     productId: test?.id,
+    //     productQuantity: 1,
+    //   })
+    // );
   };
-  
+
   return (
     <Card sx={{ maxWidth: 280 }}>
       <CardMedia
@@ -50,10 +63,10 @@ export default function DataCard({ test }) {
         <IconButton
           aria-label="add to favorites"
           onClick={() => {
-            console.log("ssss");
+            console.log("Fav");
           }}
         >
-          <FavoriteIcon /*sx={{ color: "red" }}*/ />
+          <FavoriteIcon sx={{ color: "red" }} />
         </IconButton>
         <IconButton aria-label="add" onClick={addToCartHandler}>
           <AddShoppingCartIcon />

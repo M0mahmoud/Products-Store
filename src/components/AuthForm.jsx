@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
-
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../store/userSlice";
-
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { login } from "../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import { TextField, Button, Box } from "@mui/material";
 
 const AuthForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({ userName: "", password: "" });
-
-  const { isAuthenticated, loading, userInfo, error } = useSelector(
-    (state) => state.auth
-  );
-  console.log("userInfo", userInfo);
-  console.log("error", error);
-  console.log("isAuthenticated", isAuthenticated);
+  const { loading, isAuthenticated } = useSelector((state) => state.auth);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     dispatch(login(userData));
-
-    if (isAuthenticated) {
-      navigate("/", { replace: true });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-      }).then((res) => console.log(res));
-    }
-    //Clear.
+    // Clear
     setUserData({ userName: "", password: "" });
   };
+
+  if (isAuthenticated) {
+    navigate("/");
+  }
+
+  // else { // -----------Error
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "Oops...",
+  //     text: "Something Went Worng...!",
+  //   }).then((e) => console.log(e));
+  // }
 
   return (
     <Box component="form" onSubmit={submitHandler} noValidate sx={{ mt: 1 }}>
@@ -66,7 +62,7 @@ const AuthForm = () => {
         disabled={loading}
         sx={{ mt: 3, mb: 2 }}
       >
-        Sign In
+        Login
       </Button>
     </Box>
   );

@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { uiAction } from "../store/productSlice";
+import { userAction } from "../store/userSlice";
+import { Cart } from "../pages";
 
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -13,16 +14,23 @@ import {
   Typography,
   Button,
   Avatar,
+  Drawer,
 } from "@mui/material";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated, userInfo } = useSelector((state) => state.auth);
+  const { cartIsVisible, isAuthenticated, userInfo } = useSelector(
+    (state) => state.auth
+  );
+
+  const toggleDrawer = () => {
+    dispatch(userAction.toggle());
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             align="left"
@@ -57,7 +65,7 @@ const Header = () => {
             color="inherit"
             onClick={() => {
               isAuthenticated
-                ? dispatch(uiAction.toggle())
+                ? dispatch(userAction.toggle())
                 : navigate("/auth/login");
             }}
           >
@@ -71,6 +79,9 @@ const Header = () => {
           </Button>
         </Toolbar>
       </AppBar>
+      <Drawer anchor="right" open={cartIsVisible} onClose={toggleDrawer}>
+        <Cart />
+      </Drawer>
     </Box>
   );
 };
