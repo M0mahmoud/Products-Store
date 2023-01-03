@@ -47,7 +47,7 @@ export const cartOfUser = createAsyncThunk(
       const res = await fetch(`https://dummyjson.com/users/${id}/carts`);
       const data = await res.json();
       if (res.ok) {
-        return data;
+        return data.carts[0];
       } else {
         return rejectWithValue(data.message);
       }
@@ -79,7 +79,6 @@ export const updateCart = createAsyncThunk(
       );
       const data = await res.json();
       if (res.ok) {
-        console.log("data ddddddddddddddddddd", data);
         return data;
       } else {
         return rejectWithValue(data.message);
@@ -118,18 +117,15 @@ const userSlice = createSlice({
     // Cart User
     builder.addCase(cartOfUser.pending, (state) => {
       state.loading = true;
-      state.isAuthenticated = false;
       state.error = null;
     });
     builder.addCase(cartOfUser.fulfilled, (state, action) => {
       state.loading = false;
       state.userCart = action.payload;
-      state.isAuthenticated = true;
     });
     builder.addCase(cartOfUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.isAuthenticated = false;
     });
     // Update Cart
     builder.addCase(updateCart.pending, (state) => {
@@ -139,7 +135,7 @@ const userSlice = createSlice({
     builder.addCase(updateCart.fulfilled, (state, action) => {
       state.loading = false;
       state.userCart = action.payload;
-      console.log("action.payload", action.payload.totalQuantity);
+      console.log("New Product Added ", action.payload);
     });
     builder.addCase(updateCart.rejected, (state, action) => {
       state.loading = false;

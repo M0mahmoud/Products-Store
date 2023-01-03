@@ -9,6 +9,8 @@ import {
   CardActions,
   IconButton,
   Typography,
+  Snackbar,
+  Button,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -17,27 +19,31 @@ import { cartOfUser, updateCart } from "../store/userSlice";
 
 export default function DataCard({ test }) {
   const [cartId, setCartId] = useState();
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const { userInfo, userCart } = useSelector((state) => state.auth);
+  const { id } = userInfo;
+  const { userInfo, isAuthenticated } = useSelector((state) => state.auth);
 
-  // console.log("useInfo", userInfo);
-  // const { id } = userInfo;
-
-  // useEffect(() => {
-  //   dispatch(cartOfUser(id)).then((res) => {
-  //     setCartId(res.payload.carts[0].id);
-  //   });
-  // }, []);
+  const handleClose = () => {
+    setOpen((prev) => !prev);
+  };
 
   const addToCartHandler = () => {
-    console.log("Error");
-    // dispatch(
-    //   updateCart({
-    //     cartId: cartId,
-    //     productId: test?.id,
-    //     productQuantity: 1,
-    //   })
-    // );
+    // Get Cart Id
+    dispatch(cartOfUser(id))
+      .unwrap()
+      .then((res) => {
+        setCartId(res.id);
+      });
+    // Update Cart
+    dispatch(
+      updateCart({
+        cartId: cartId,
+        productId: test?.id,
+        productQuantity: 1,
+      })
+    );
+    setOpen(true);
   };
 
   return (
@@ -84,6 +90,13 @@ export default function DataCard({ test }) {
           </Typography>
         </Link>
       </CardActions>
+      <Snackbar
+        open={open}
+        autoHideDuration={2500}
+        onClose={handleClose}
+        message={isAuthenticated ? "Added To Cart" : "Login First "}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+      />
     </Card>
   );
 }

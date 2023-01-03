@@ -30,6 +30,9 @@ export const getProducts = createAsyncThunk(
       const response = await fetch(
         `https://dummyjson.com/products?limit=15&skip=${skip}`
       );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch products with status ${response.status}`);
+      }
       const data = await response.json();
       return data;
     } catch (error) {

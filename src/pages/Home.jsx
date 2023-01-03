@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { userAction } from "../store/userSlice";
 import { getCategories, getProducts } from "../store/productSlice";
-
-import { Grid, Container, Drawer } from "@mui/material";
-
+import { Grid, Container } from "@mui/material";
 import {
   DataCard,
   HeroIMG,
@@ -12,7 +9,6 @@ import {
   Paginate,
   LoadingContent,
 } from "../components";
-import Cart from "./Cart";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,30 +16,40 @@ const Home = () => {
   const { catg, data, loading, error } = useSelector((state) => state.products);
   console.count("Home Running...");
 
-  useEffect(() => {
-    dispatch(getCategories());
-  }, []);
+  const getCategoriesData = useCallback(
+    () => dispatch(getCategories()),
+    [dispatch]
+  );
 
   useEffect(() => {
-    dispatch(getProducts(skip));
-  }, [skip]);
+    getCategoriesData();
+  }, [getCategoriesData]);
+
+  const getProductsData = useMemo(() => {
+    return (skip) => dispatch(getProducts(skip));
+  }, [dispatch]);
+
+  useEffect(() => {
+    getProductsData(skip);
+  }, [getProductsData, skip]);
 
   return (
     <main>
       <HeroIMG />
       <LoadingContent loading={loading} error={error}>
         <Category catg={catg} />
-
         <Container sx={{ padding: "0 20px" }}>
           <Grid container justify="center" spacing={3}>
-            {data?.products?.map((value) => (
-              <Grid item key={value.id} xs={12} sm={6} md={4}>
-                <DataCard test={value} />
-              </Grid>
-            ))}
+            {data &&
+              data.products &&
+              data.products.map((value) => (
+                <Grid item key={value.id} xs={12} sm={6} md={4}>
+                  <DataCard test={value} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
-        <Paginate setSkip={setSkip} />
+        <Paginate setSkip={setSkip} isLoading={loading} />
       </LoadingContent>
     </main>
   );

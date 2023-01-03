@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 
 import { Home, Login, OneCategory, ProductDetails, Root } from "./pages";
-import UserProvider from "./store/user-context";
 
 const routers = createBrowserRouter([
   {
@@ -30,11 +29,7 @@ const routers = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <UserProvider>
-      <RouterProvider router={routers} />
-    </UserProvider>
-  );
+  return <RouterProvider router={routers} />;
 }
 
 export default App;
