@@ -15,7 +15,7 @@ function Login() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "blue" }}>
+        <Avatar sx={{ mt: 4, bgcolor: "blue" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

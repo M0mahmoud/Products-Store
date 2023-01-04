@@ -10,7 +10,6 @@ import {
   IconButton,
   Typography,
   Snackbar,
-  Button,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -21,8 +20,8 @@ export default function DataCard({ test }) {
   const [cartId, setCartId] = useState();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const { id } = userInfo;
   const { userInfo, isAuthenticated } = useSelector((state) => state.auth);
+  const { id } = userInfo;
 
   const handleClose = () => {
     setOpen((prev) => !prev);
@@ -46,6 +45,10 @@ export default function DataCard({ test }) {
     setOpen(true);
   };
 
+  const addToFavHandler = () => {
+    console.log("Fav");
+  };
+
   return (
     <Card sx={{ maxWidth: 280 }}>
       <CardMedia
@@ -66,12 +69,7 @@ export default function DataCard({ test }) {
           justifyContent: "space-between",
         }}
       >
-        <IconButton
-          aria-label="add to favorites"
-          onClick={() => {
-            console.log("Fav");
-          }}
-        >
+        <IconButton aria-label="add to favorites" onClick={addToFavHandler}>
           <FavoriteIcon sx={{ color: "red" }} />
         </IconButton>
         <IconButton aria-label="add" onClick={addToCartHandler}>

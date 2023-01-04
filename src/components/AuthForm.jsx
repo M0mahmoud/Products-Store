@@ -10,26 +10,20 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({ userName: "", password: "" });
-  const { loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(login(userData));
-    // Clear
-    setUserData({ userName: "", password: "" });
+    dispatch(login(userData)).then((res) => {
+      res.meta.requestStatus == "fulfilled"
+        ? navigate("/")
+        : Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something Went Worng...! ",
+          }).then((e) => console.log(e));
+    });
   };
-
-  if (isAuthenticated) {
-    navigate("/");
-  }
-
-  // else { // -----------Error
-  //   Swal.fire({
-  //     icon: "error",
-  //     title: "Oops...",
-  //     text: "Something Went Worng...!",
-  //   }).then((e) => console.log(e));
-  // }
 
   return (
     <Box component="form" onSubmit={submitHandler} noValidate sx={{ mt: 1 }}>
